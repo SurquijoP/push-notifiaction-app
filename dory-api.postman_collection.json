@@ -1,0 +1,835 @@
+{
+  "info": {
+    "_postman_id": "e3988836-25d6-41b1-9f00-395d72669669",
+    "name": "dory-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23794453",
+    "_collection_link": "https://go.postman.co/collection/23794453-e3988836-25d6-41b1-9f00-395d72669669?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "tasks",
+      "item": [
+        {
+          "name": "Get tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api-coremanagment/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api-coremanagment",
+                "tasks"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Filter Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/tasks/create/filters",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                "create",
+                "filters"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create new task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Pago inmobiliario\",\r\n  \"wallet\": [\r\n    {\r\n      \"id\": \"69e3f4bf7a36b47b3a89b03f\",\r\n      \"name\": \"Bancolombia\"\r\n    }\r\n  ],/**\r\n  \"entity\": {\r\n    \"name\": \"Wompi\",\r\n    \"commercialName\": \"wompi\",\r\n    \"nit\": \"899.999.035.7\",\r\n    \"isBilling\": true,\r\n    \"link\": \"https://wompi.com\",\r\n    \"btnRedirect\": null,\r\n    \"isNew\": true\r\n  },*/\r\n  \"entity\": {\r\n    \"id\": \"69e7f629d36c60fa9e0cb376\"\r\n  },\r\n  \"category\": {\r\n    \"id\": \"69e3f4bf7a36b47b3a89b03e\"\r\n  },\r\n  \"value\": 3800000,\r\n  \"solveDay\": \"2026-04-15\",\r\n  \"frequency\": {\r\n    \"id\": \"69e3f4bf7a36b47b3a89b040\"\r\n  },\r\n  \"extraFields\": [\r\n    [\r\n      {\r\n        \"label\": \"Referencia del credito\",\r\n        \"value\": \"0191244402-0\"\r\n      }\r\n    ]\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api-coremanagment/tasks/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                "create"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Pagar servicio de electricidad\",\r\n    \"wallet\": [\r\n        {\r\n            \"id\": \"69e3f4bf7a36b47b3a89b03f\",\r\n            \"name\": \"Bancolombia\"\r\n        }\r\n    ],\r\n    \"entity\": {\r\n        \"id\": \"69e3f4bf7a36b47b3a89b041\"\r\n    },\r\n    \"category\": {\r\n        \"id\": \"69e3f4bf7a36b47b3a89b03d\",\r\n        \"name\": \"Facturas Domesticas\"\r\n    },\r\n    \"value\": 15000000,\r\n    \"status\": \"PENDING\",\r\n    \"isActive\": true,\r\n    \"solveDay\": \"2026-04-15\",\r\n    \"frequency\": {\r\n        \"id\": \"69e3f4bf7a36b47b3a89b040\",\r\n        \"code\": \"MONTHLY\",\r\n        \"intervalDays\": 30\r\n    },\r\n    \"extraFields\": [\r\n        [\r\n            {\r\n                \"label\": \"NIC\",\r\n                \"value\": \"0123458\"\r\n            }\r\n        ]\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/tasks/update/:id/user/:userId",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                "update",
+                ":id",
+                "user",
+                ":userId"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "user_3CXE3ydcmBfLDbwldqd0Qf3GgIp",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69e3f4bf7a36b47b3a89b042"
+                },
+                {
+                  "key": "userId",
+                  "value": "user_3CXE3ydcmBfLDbwldqd0Qf3GgIp"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/tasks/:task_id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                ":task_id"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "task_id",
+                  "value": "69e3f5086821a643b99b4a1e"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Active",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/tasks/:id/active",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                ":id",
+                "active"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69e3f5086821a643b99b4a1e"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/tasks/:id/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "tasks",
+                ":id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69e3f5086821a643b99b4a1e"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "entities",
+      "item": [
+        {
+          "name": "Update entities",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"TestUpdated\",\r\n    \"commercialName\": \"TestIcetex\",\r\n    \"nit\": \"899.999.035.7\",\r\n    \"isBilling\": true,\r\n    \"link\": \"https://pasareladepagos.icetex.gov.co/WebsitePSE/login\",\r\n    \"btnRedirect\": null,\r\n    \"isNew\": true\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/entities/:entity_id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "entities",
+                ":entity_id"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "entity_id",
+                  "value": "69e3f3b5baf926309a89b040"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete entity",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/entities/:entity_id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "entities",
+                ":entity_id"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "entity_id",
+                  "value": "69e3f3b5baf926309a89b040"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CLERK",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email_address\": [\"seabstianurquijo@hotmail.com\"],\r\n  \"password\": \"Hola1234!!\",\r\n  \"first_name\": \"Sebastian\",\r\n  \"last_name\": \"Urquijo\",\r\n  \"skip_password_checks\": true,\r\n  \"skip_password_requirement\": false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.clerk.com/v1/users",
+              "protocol": "https",
+              "host": [
+                "api",
+                "clerk",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email_address\": [\"seabstianurquijo@hotmail.com\"],\r\n  \"password\": \"Hola1234!!\",\r\n  \"first_name\": \"Sebastian\",\r\n  \"last_name\": \"Urquijo\",\r\n  \"skip_password_checks\": true,\r\n  \"skip_password_requirement\": false\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.clerk.com/v1/users",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "clerk",
+                    "com"
+                  ],
+                  "path": [
+                    "v1",
+                    "users"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 18 Apr 2026 14:41:58 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "cf-ray",
+                  "value": "9ee46ef5bf5af792-BOG"
+                },
+                {
+                  "key": "cf-cache-status",
+                  "value": "DYNAMIC"
+                },
+                {
+                  "key": "server",
+                  "value": "cloudflare"
+                },
+                {
+                  "key": "x-cfworker",
+                  "value": "1"
+                },
+                {
+                  "key": "clerk-api-version",
+                  "value": "2025-11-10"
+                },
+                {
+                  "key": "x-clerk-trace-id",
+                  "value": "ec850d0df4cb7a4677f2335296c9c3a4"
+                },
+                {
+                  "key": "x-cloud-trace-context",
+                  "value": "ec850d0df4cb7a4677f2335296c9c3a4"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": \"user_3CXE3ydcmBfLDbwldqd0Qf3GgIp\",\n    \"object\": \"user\",\n    \"username\": null,\n    \"first_name\": \"Sebastian\",\n    \"last_name\": \"Urquijo\",\n    \"locale\": null,\n    \"image_url\": \"https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18zQm9jSjlSWXREbWxPRzBmQ0wxcHJZTkFjVDMiLCJyaWQiOiJ1c2VyXzNDWEUzeWRjbUJmTERid2xkcWQwUWYzR2dJcCIsImluaXRpYWxzIjoiU1UifQ\",\n    \"has_image\": false,\n    \"primary_email_address_id\": \"idn_3CXE3t8gbzE2XFYqSd9UGDtTbYk\",\n    \"primary_phone_number_id\": null,\n    \"primary_web3_wallet_id\": null,\n    \"password_enabled\": true,\n    \"two_factor_enabled\": false,\n    \"totp_enabled\": false,\n    \"backup_code_enabled\": false,\n    \"email_addresses\": [\n        {\n            \"id\": \"idn_3CXE3t8gbzE2XFYqSd9UGDtTbYk\",\n            \"object\": \"email_address\",\n            \"email_address\": \"seabstianurquijo@hotmail.com\",\n            \"reserved\": false,\n            \"verification\": {\n                \"object\": \"verification_admin\",\n                \"status\": \"verified\",\n                \"strategy\": \"admin\",\n                \"attempts\": null,\n                \"expire_at\": null\n            },\n            \"linked_to\": [],\n            \"matches_sso_connection\": false,\n            \"created_at\": 1776523318842,\n            \"updated_at\": 1776523318842\n        }\n    ],\n    \"phone_numbers\": [],\n    \"web3_wallets\": [],\n    \"passkeys\": [],\n    \"external_accounts\": [],\n    \"saml_accounts\": [],\n    \"enterprise_accounts\": [],\n    \"password_last_updated_at\": 1776523318839,\n    \"public_metadata\": {},\n    \"private_metadata\": {},\n    \"unsafe_metadata\": {},\n    \"external_id\": null,\n    \"last_sign_in_at\": null,\n    \"banned\": false,\n    \"locked\": false,\n    \"lockout_expires_in_seconds\": null,\n    \"verification_attempts_remaining\": 100,\n    \"created_at\": 1776523318839,\n    \"updated_at\": 1776523318846,\n    \"delete_self_enabled\": true,\n    \"bypass_client_trust\": false,\n    \"create_organization_enabled\": true,\n    \"last_active_at\": null,\n    \"mfa_enabled_at\": null,\n    \"mfa_disabled_at\": null,\n    \"legal_accepted_at\": null,\n    \"requires_password_reset\": false,\n    \"deprovisioned\": false,\n    \"profile_image_url\": \"https://www.gravatar.com/avatar?d=mp\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"user_id\": \"{{USER_ID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.clerk.com/v1/sessions",
+              "protocol": "https",
+              "host": [
+                "api",
+                "clerk",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "sessions"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"user_id\": \"{{USER_ID}}\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://api.clerk.com/v1/sessions",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "clerk",
+                    "com"
+                  ],
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 18 Apr 2026 14:43:26 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "cf-ray",
+                  "value": "9ee4711c2ccf8a11-BOG"
+                },
+                {
+                  "key": "cf-cache-status",
+                  "value": "DYNAMIC"
+                },
+                {
+                  "key": "server",
+                  "value": "cloudflare"
+                },
+                {
+                  "key": "x-cfworker",
+                  "value": "1"
+                },
+                {
+                  "key": "clerk-api-version",
+                  "value": "2025-11-10"
+                },
+                {
+                  "key": "x-clerk-trace-id",
+                  "value": "0ae1a26316c8e5e68d0a24dffbd40bc0"
+                },
+                {
+                  "key": "x-cloud-trace-context",
+                  "value": "0ae1a26316c8e5e68d0a24dffbd40bc0"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"object\": \"session\",\n    \"id\": \"sess_3CXEEwQlkSki8pBqEHRU8tZcGr0\",\n    \"client_id\": \"client_3CXEEyzEOf7WXs5xJTMr41IYlG2\",\n    \"user_id\": \"user_3CXE3ydcmBfLDbwldqd0Qf3GgIp\",\n    \"status\": \"active\",\n    \"actor\": null,\n    \"last_active_at\": 1776523406836,\n    \"expire_at\": 1777128206836,\n    \"abandon_at\": 1779115406836,\n    \"created_at\": 1776523406836,\n    \"updated_at\": 1776523406836\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get TOKEN by TEMPLATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://api.clerk.com/v1/sessions/sess_3CXESb9j41MBypPkfc9C0Dr6Yob/tokens/postman_test",
+              "protocol": "https",
+              "host": [
+                "api",
+                "clerk",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "sessions",
+                "sess_3CXESb9j41MBypPkfc9C0Dr6Yob",
+                "tokens",
+                "postman_test"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get TOKEN by TEMPLATE",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "https://api.clerk.com/v1/sessions/sess_3CXESb9j41MBypPkfc9C0Dr6Yob/tokens/postman_test",
+                  "protocol": "https",
+                  "host": [
+                    "api",
+                    "clerk",
+                    "com"
+                  ],
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "sess_3CXESb9j41MBypPkfc9C0Dr6Yob",
+                    "tokens",
+                    "postman_test"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 18 Apr 2026 14:56:33 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "cf-ray",
+                  "value": "9ee4844cdb14f786-BOG"
+                },
+                {
+                  "key": "cf-cache-status",
+                  "value": "DYNAMIC"
+                },
+                {
+                  "key": "server",
+                  "value": "cloudflare"
+                },
+                {
+                  "key": "x-cfworker",
+                  "value": "1"
+                },
+                {
+                  "key": "clerk-api-version",
+                  "value": "2025-11-10"
+                },
+                {
+                  "key": "x-clerk-trace-id",
+                  "value": "4328876387056b73aabc340feb83fc85"
+                },
+                {
+                  "key": "x-cloud-trace-context",
+                  "value": "4328876387056b73aabc340feb83fc85"
+                },
+                {
+                  "key": "set-cookie",
+                  "value": "__cf_bm=YKmv57A.Je2T3CbtoVCR2SFKrw3NUNUw_375m9FyR0o-1776524192.7794516-1.0.1.1-rbvspbLDIR6SDPt0YbwPhaPrCTDceUPvn4AWLGp_YD9HOiw_XlCdI472.T5AEeu9Up5c5r1wwU7tWsZ4Ljrz_LBTpbXJGQ11uOHxmzL7xy1bvVfMivwyvfYU8OWW7CMJ; HttpOnly; Secure; Path=/; Domain=api.clerk.com; Expires=Sat, 18 Apr 2026 15:26:33 GMT"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"object\": \"token\",\n    \"jwt\": \"eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDIyMkFBQSIsImtpZCI6Imluc18zQm9jSjlSWXREbWxPRzBmQ0wxcHJZTkFjVDMiLCJ0eXAiOiJKV1QifQ.eyJlbWFpbCI6InNlYWJzdGlhbnVycXVpam9AaG90bWFpbC5jb20iLCJleHAiOjE3NzY1OTQxOTIsImlhdCI6MTc3NjUyNDE5MiwiaWQiOiJ1c2VyXzNDWEUzeWRjbUJmTERid2xkcWQwUWYzR2dJcCIsImlzcyI6Imh0dHBzOi8vZmFzdC1odXNreS01MS5jbGVyay5hY2NvdW50cy5kZXYiLCJqdGkiOiJlN2VlYWYzOWQwYmRjNDRiZmJmZSIsImxhc3RfbmFtZSI6IlVycXVpam8iLCJuYW1lIjoiU2ViYXN0aWFuIiwibmJmIjoxNzc2NTI0MTg3LCJzdWIiOiJ1c2VyXzNDWEUzeWRjbUJmTERid2xkcWQwUWYzR2dJcCJ9.hn1A7IiL941vCSyzBpWsxpDCtW0eyEsT1Mx6L2TRkqOcpos0C9kL1p-gkJgcVjTrtORslPPn0upV0lELPE8GsE-aoAcOT_CrSeKFXQAiEpoKqMvYTB-Yeb_sYwEnlelUuk_dFZ16yhsk10KNGkNLacRfDblZojFirAbfjRxit-IlclPCpTsndLwLtyN3I_HZPpfUZOY8TsXXzTW_EtZUmG-3zvh1-lto4tGkNVl3H9wlK6DE1JU23LD3cLGtXYGz3v2oqkwr3mTM-qFGztJAJQ7ruhgq1FpQpyDCURGn8bCCrjnKMEY54kO-X_ysFbAStP9x8ibmC3riZebBzwi3ZA\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{clerk_token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "execution task CRON",
+      "item": [
+        {
+          "name": "RUN CRON",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api-coremanagment/cron/0",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8000",
+              "path": [
+                "api-coremanagment",
+                "cron",
+                "0"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "clerk_token",
+      "value": ""
+    },
+    {
+      "key": "USER_ID",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
