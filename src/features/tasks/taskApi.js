@@ -114,5 +114,14 @@ export const taskApi = {
     });
     await handleResponse(response);
     return taskId;
+  },
+
+  registerFCMSubscription: async (payload, headers) => {
+    const response = await fetch(`${baseApiUrl}/api-coremanagment/notification/push/fcm-subscriptions`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload)
+    });
+    return handleResponse(response);
   }
 };

@@ -1,18 +1,76 @@
-﻿import { useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { useAuth, useUser, SignInButton } from '@clerk/clerk-react';
 import { TaskDetail } from './features/tasks/components/TaskDetail.jsx';
 import { TaskForm } from './features/tasks/components/TaskForm.jsx';
 import { TaskList } from './features/tasks/components/TaskList.jsx';
 import { SuggestedTaskView } from './features/tasks/components/SuggestedTaskView.jsx';
+import { taskApi } from './features/tasks/taskApi.js';
+import { requestFCMToken } from './firebase.js';
 import { useTasks } from './features/tasks/useTasks.js';
 import './App.css';
 
+const FCM_STORAGE_KEY = 'fcmSubscriptionToken';
+
 function App() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, getToken } = useAuth();
   const { user } = useUser();
   const [view, setView] = useState('list');
   const [selectedTask, setSelectedTask] = useState(null);
   const { tasks, loading, message, filters, loadTasks, createTask, updateTask, deleteTask, toggleTaskActive } = useTasks();
+
+  const getDeviceInfo = () => ({
+    userAgent: navigator.userAgent || 'unknown',
+    platform: navigator.platform || 'unknown',
+    language: navigator.language || navigator.userLanguage || 'unknown',
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
+    isMobile: /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+  });
+
+  const registerFCMSubscription = async () => {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return;
+    }
+
+    const savedToken = window.localStorage.getItem(FCM_STORAGE_KEY);
+    if (savedToken) {
+      return savedToken;
+    }
+
+    const token = await requestFCMToken();
+    if (!token) {
+      return;
+    }
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (isSignedIn) {
+      const authToken = await getToken();
+      if (authToken) {
+        headers.Authorization = `Bearer ${authToken}`;
+      }
+    }
+
+    const payload = {
+      fcmToken: token,
+      deviceInfo: getDeviceInfo(),
+      subscribedAt: new Date().toISOString()
+    };
+
+    await taskApi.registerFCMSubscription(payload, headers);
+    window.localStorage.setItem(FCM_STORAGE_KEY, token);
+    return token;
+  };
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      return;
+    }
+
+    registerFCMSubscription().catch((error) => {
+      console.error('Error registrando la suscripción FCM:', error);
+    });
+  }, [isSignedIn, getToken]);
+
 
   const handleSelectTask = (task) => {
     setSelectedTask(task);
