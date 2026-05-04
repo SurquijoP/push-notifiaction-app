@@ -28,6 +28,9 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
     if (statusLower === 'delayed') {
       return <span className="status-icon delayed">✕</span>;
     }
+    if (statusLower === 'pending' || !statusLower) {
+      return <span className="status-icon pending">•</span>;
+    }
     return null;
   };
 
@@ -72,17 +75,21 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
                   className="task-item"
                   onClick={() => onSelectTask(task)}
                 >
-                  <div>
-                    <div className="task-title">{task.title || 'Sin título'}</div>
-                    <div className="task-meta">
-                      <span>{task.status || 'PENDING'}</span>
-                      <span>{task.isActive ? 'Activo' : 'Inactivo'}</span>
-                      {task.value !== undefined && <span>Valor: {task.value}</span>}
+                  <div className="task-main">
+                    <div className="task-icon">{getStatusIcon(task.status)}</div>
+                    <div className="task-body">
+                      <div className="task-title">{task.title || 'Sin título'}</div>
+                      <div className="task-meta">
+                        <span>
+                          {task.solveDay
+                            ? `Compromiso: ${new Date(task.solveDay).toLocaleDateString('es-ES', {
+                                weekday: 'long',
+                                day: '2-digit'
+                              })}`
+                            : 'Sin fecha de compromiso'}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="task-actions">
-                    {getStatusIcon(task.status)}
-                    <span className="task-link">Ver detalle</span>
                   </div>
                 </button>
               ))}

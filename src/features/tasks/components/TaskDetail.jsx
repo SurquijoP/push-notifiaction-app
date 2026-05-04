@@ -97,6 +97,15 @@ export function TaskDetail({ task, filters, onBack, onEdit, onDelete, onToggleAc
           >
             {task.isActive ? 'Desactivar' : 'Activar'}
           </button>
+          {task.entity?.link && (
+            <button
+              className="secondary-button"
+              onClick={() => window.open(task.entity.link, '_blank')}
+              disabled={loading}
+            >
+              Ir al sitio web
+            </button>
+          )}
           <button className="danger-button" onClick={() => onDelete(task.id || task._id)} disabled={loading}>
             Eliminar tarea
           </button>

@@ -55,12 +55,16 @@ const mapInitialTask = (task) => {
   };
 };
 
-export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, loading }) {
+export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShowSuggested, loading }) {
   const [form, setForm] = useState({ ...initialForm, ...mapInitialTask(initialTask) });
   const [searchCategory, setSearchCategory] = useState('');
   const [searchWallet, setSearchWallet] = useState('');
   const [searchEntity, setSearchEntity] = useState('');
   const [searchFrequency, setSearchFrequency] = useState('');
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [walletDropdownOpen, setWalletDropdownOpen] = useState(false);
+  const [entityDropdownOpen, setEntityDropdownOpen] = useState(false);
+  const [frequencyDropdownOpen, setFrequencyDropdownOpen] = useState(false);
   const isEdit = Boolean(initialTask?.id || initialTask?._id);
 
   const categories = Array.isArray(filters.categories) ? filters.categories : [];
@@ -97,22 +101,45 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, loadin
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleWalletChange = (walletId) => {
-    const selected = wallets.find((item) => item.id === walletId);
+  const handleCategoryInput = (value) => {
+    setSearchCategory(value);
+    const selected = categories.find((item) => item.name.toLowerCase() === value.toLowerCase());
     setForm((prev) => ({
       ...prev,
-      walletId,
+      categoryId: selected?.id || ''
+    }));
+  };
+
+  const handleWalletInput = (value) => {
+    setSearchWallet(value);
+    const selected = wallets.find((item) => item.name.toLowerCase() === value.toLowerCase());
+    setForm((prev) => ({
+      ...prev,
+      walletId: selected?.id || '',
       walletName: selected?.name || prev.walletName
     }));
   };
 
-  const handleEntityChange = (entityId) => {
-    const selected = entities.find((item) => item.id === entityId);
-    const suggested = selected?.suggested_extra_fields || selected?.suggestedExtraFields || [];
-
+  const handleFrequencyInput = (value) => {
+    setSearchFrequency(value);
+    const selected = frequencies.find((item) => item.code.toLowerCase() === value.toLowerCase());
     setForm((prev) => ({
       ...prev,
-      entityId,
+      frequencyId: selected?.id || ''
+    }));
+  };
+
+  const handleEntityInput = (value) => {
+    setSearchEntity(value);
+    const selected = entities.find((item) => item.name.toLowerCase() === value.toLowerCase());
+    if (!selected) {
+      setForm((prev) => ({ ...prev, entityId: '' }));
+      return;
+    }
+    const suggested = selected?.suggested_extra_fields || selected?.suggestedExtraFields || [];
+    setForm((prev) => ({
+      ...prev,
+      entityId: selected.id,
       extraFields: Array.isArray(suggested)
         ? suggested.map((field) => ({
             label: field.name || '',
@@ -134,6 +161,16 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, loadin
           <h2>{formTitle}</h2>
           <p>Completa los datos para guardar la tarea. Selecciona por nombre y se enviará el ID.</p>
         </div>
+        <div className="task-list-actions">
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={onShowSuggested}
+            disabled={loading}
+          >
+            Ver tareas sugeridas
+          </button>
+        </div>
       </div>
 
       <form className="task-form" onSubmit={submit}>
@@ -151,58 +188,121 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, loadin
         <div className="form-grid">
           <div className="form-section">
             <label>Buscar categoría</label>
-            <input
-              type="text"
-              value={searchCategory}
-              onChange={(event) => setSearchCategory(event.target.value)}
-              placeholder="Escribe para filtrar categorías"
-            />
-            <select value={form.categoryId} onChange={(event) => setField('categoryId', event.target.value)}>
-              <option value="">Selecciona categoría</option>
-              {filteredCategories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            <div
+              className="search-select"
+              tabIndex={0}
+              onBlur={() => setCategoryDropdownOpen(false)}
+            >
+              <input
+                type="text"
+                value={searchCategory}
+                onChange={(event) => handleCategoryInput(event.target.value)}
+                onClick={() => setCategoryDropdownOpen(true)}
+                placeholder="Escribe o selecciona categoría"
+              />
+              {categoryDropdownOpen && (
+                <div className="search-options">
+                  {filteredCategories.length ? (
+                    filteredCategories.map((category) => (
+                      <button
+                        key={category.id}
+                        type="button"
+                        className="search-option"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => {
+                          handleCategoryInput(category.name);
+                          setCategoryDropdownOpen(false);
+                        }}
+                      >
+                        {category.name}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="search-empty">No hay resultados</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="form-section">
             <label>Buscar billetera</label>
-            <input
-              type="text"
-              value={searchWallet}
-              onChange={(event) => setSearchWallet(event.target.value)}
-              placeholder="Escribe para filtrar billeteras"
-            />
-            <select value={form.walletId} onChange={(event) => handleWalletChange(event.target.value)}>
-              <option value="">Selecciona billetera</option>
-              {filteredWallets.map((wallet) => (
-                <option key={wallet.id} value={wallet.id}>
-                  {wallet.name}
-                </option>
-              ))}
-            </select>
+            <div
+              className="search-select"
+              tabIndex={0}
+              onBlur={() => setWalletDropdownOpen(false)}
+            >
+              <input
+                type="text"
+                value={searchWallet}
+                onChange={(event) => handleWalletInput(event.target.value)}
+                onClick={() => setWalletDropdownOpen(true)}
+                placeholder="Escribe o selecciona billetera"
+              />
+              {walletDropdownOpen && (
+                <div className="search-options">
+                  {filteredWallets.length ? (
+                    filteredWallets.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        type="button"
+                        className="search-option"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => {
+                          handleWalletInput(wallet.name);
+                          setWalletDropdownOpen(false);
+                        }}
+                      >
+                        {wallet.name}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="search-empty">No hay resultados</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="form-grid">
           <div className="form-section">
             <label>Buscar frecuencia</label>
-            <input
-              type="text"
-              value={searchFrequency}
-              onChange={(event) => setSearchFrequency(event.target.value)}
-              placeholder="Escribe para filtrar frecuencias"
-            />
-            <select value={form.frequencyId} onChange={(event) => setField('frequencyId', event.target.value)}>
-              <option value="">Selecciona frecuencia</option>
-              {filteredFrequencies.map((frequency) => (
-                <option key={frequency.id} value={frequency.id}>
-                  {frequency.code}
-                </option>
-              ))}
-            </select>
+            <div
+              className="search-select"
+              tabIndex={0}
+              onBlur={() => setFrequencyDropdownOpen(false)}
+            >
+              <input
+                type="text"
+                value={searchFrequency}
+                onChange={(event) => handleFrequencyInput(event.target.value)}
+                onClick={() => setFrequencyDropdownOpen(true)}
+                placeholder="Escribe o selecciona frecuencia"
+              />
+              {frequencyDropdownOpen && (
+                <div className="search-options">
+                  {filteredFrequencies.length ? (
+                    filteredFrequencies.map((frequency) => (
+                      <button
+                        key={frequency.id}
+                        type="button"
+                        className="search-option"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => {
+                          handleFrequencyInput(frequency.code);
+                          setFrequencyDropdownOpen(false);
+                        }}
+                      >
+                        {frequency.code}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="search-empty">No hay resultados</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="form-section">
@@ -273,20 +373,41 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, loadin
         ) : (
           <div className="form-section">
             <label>Buscar entidad</label>
-            <input
-              type="text"
-              value={searchEntity}
-              onChange={(event) => setSearchEntity(event.target.value)}
-              placeholder="Escribe para filtrar entidades"
-            />
-            <select value={form.entityId} onChange={(event) => handleEntityChange(event.target.value)}>
-              <option value="">Selecciona entidad</option>
-              {filteredEntities.map((entity) => (
-                <option key={entity.id} value={entity.id}>
-                  {entity.name}
-                </option>
-              ))}
-            </select>
+            <div
+              className="search-select"
+              tabIndex={0}
+              onBlur={() => setEntityDropdownOpen(false)}
+            >
+              <input
+                type="text"
+                value={searchEntity}
+                onChange={(event) => handleEntityInput(event.target.value)}
+                onClick={() => setEntityDropdownOpen(true)}
+                placeholder="Escribe o selecciona entidad"
+              />
+              {entityDropdownOpen && (
+                <div className="search-options">
+                  {filteredEntities.length ? (
+                    filteredEntities.map((entity) => (
+                      <button
+                        key={entity.id}
+                        type="button"
+                        className="search-option"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => {
+                          handleEntityInput(entity.name);
+                          setEntityDropdownOpen(false);
+                        }}
+                      >
+                        {entity.name}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="search-empty">No hay resultados</div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 

@@ -87,6 +87,11 @@ function App() {
     setView('list');
   };
 
+  const handleShowSuggested = () => {
+    setSelectedTask(null);
+    setView('suggested');
+  };
+
   const shouldShowSuggested =
     isSignedIn &&
     !loading &&
@@ -119,17 +124,6 @@ function App() {
   return (
     <div className="task-app">
       <div className="task-card page-shell">
-        <div className="task-header">
-          <div>
-            <h1>Mi panel de tareas</h1>
-            <p>Arquitectura limpia con slices verticales: login, lista, creación y detalle.</p>
-          </div>
-          {isSignedIn ? (
-            <button className="primary-button" onClick={handleCreateTask} disabled={loading}>
-              Crear nueva tarea
-            </button>
-          ) : null}
-        </div>
 
         <div className="page-hero">
           <div>
@@ -180,6 +174,21 @@ function App() {
               />
             )}
 
+            {view === 'suggested' && (
+              <SuggestedTaskView
+                categories={filters.categories || []}
+                onSelectSuggested={(category, suggestion) => {
+                  setSelectedTask({
+                    title: suggestion,
+                    category: { id: category.id }
+                  });
+                  setView('create');
+                }}
+                onCreateManual={handleCreateTask}
+                loading={loading}
+              />
+            )}
+
             {view === 'detail' && selectedTask && (
               <TaskDetail
                 task={selectedTask}
@@ -198,6 +207,7 @@ function App() {
                 filters={filters}
                 onSubmit={handleSubmitTask}
                 onCancel={handleCancel}
+                onShowSuggested={handleShowSuggested}
                 loading={loading}
               />
             )}
