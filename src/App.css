@@ -282,6 +282,55 @@
   border-radius: 999px;
 }
 
+.task-list-skeleton {
+  display: grid;
+  gap: 10px;
+}
+
+.task-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.skeleton-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-title {
+  width: 180px;
+}
+
+.skeleton-meta {
+  width: 120px;
+  margin-top: 8px;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .task-actions {
   display: flex;
   flex-wrap: wrap;

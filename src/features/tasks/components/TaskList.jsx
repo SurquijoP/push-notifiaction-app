@@ -51,7 +51,19 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
         </div>
       </div>
 
-      {loading && <div className="empty-state">Cargando tareas...</div>}
+      {loading && tasks.length === 0 && (
+        <div className="task-list-skeleton" aria-label="Cargando tareas">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="task-skeleton">
+              <div className="skeleton-circle" />
+              <div className="task-body">
+                <div className="skeleton-line skeleton-title" />
+                <div className="skeleton-line skeleton-meta" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {!loading && tasks.length === 0 && (
         <div className="empty-state">

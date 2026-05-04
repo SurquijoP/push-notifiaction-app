@@ -62,7 +62,7 @@ export function TaskDetail({ task, filters, onBack, onEdit, onDelete, onToggleAc
         {task.entity?.id && (
           <div className="detail-row">
             <strong>Entidad</strong>
-            <span>{getEntityName(task.entity.id)}</span>
+            <span>{getEntityName(task.entity.name)}</span>
           </div>
         )}
         {task.wallet?.[0]?.name && (
