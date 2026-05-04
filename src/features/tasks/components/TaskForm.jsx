@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 const initialForm = {
   title: '',
@@ -31,7 +31,7 @@ const mapInitialTask = (task) => {
     title: task.title || '',
     walletId: task.wallet?.[0]?.id || '',
     walletName: task.wallet?.[0]?.name || '',
-    categoryId: task.category?.id || '',
+    categoryId: task.categoryId || task.category?.id || '',
     value: task.value?.toString() || '',
     solveDay: task.solveDay?.slice(0, 10) || '',
     frequencyId: task.frequency?.id || '',
@@ -71,6 +71,15 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
   const wallets = Array.isArray(filters.wallets) ? filters.wallets : [];
   const entities = Array.isArray(filters.entities) ? filters.entities : [];
   const frequencies = Array.isArray(filters.frequencies) ? filters.frequencies : [];
+
+  useEffect(() => {
+    if (form.categoryId) {
+      const category = categories.find(cat => cat.id === form.categoryId);
+      if (category) {
+        setSearchCategory(category.name);
+      }
+    }
+  }, [form.categoryId, categories]);
 
   const filteredCategories = useMemo(
     () => categories.filter((item) => item.name.toLowerCase().includes(searchCategory.toLowerCase())),

@@ -155,7 +155,8 @@ function App() {
                 onSelectSuggested={(category, suggestion) => {
                   setSelectedTask({
                     title: suggestion,
-                    category: { id: category.id }
+                    categoryId: category.id,
+                    category: { id: category.id, name: category.name }
                   });
                   setView('create');
                 }}
@@ -180,7 +181,8 @@ function App() {
                 onSelectSuggested={(category, suggestion) => {
                   setSelectedTask({
                     title: suggestion,
-                    category: { id: category.id }
+                    categoryId: category.id,
+                    category: { id: category.id, name: category.name }
                   });
                   setView('create');
                 }}

@@ -96,7 +96,8 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
                           {task.solveDay
                             ? `Compromiso: ${new Date(task.solveDay).toLocaleDateString('es-ES', {
                                 weekday: 'long',
-                                day: '2-digit'
+                                day: '2-digit',
+                                timeZone: 'UTC'
                               })}`
                             : 'Sin fecha de compromiso'}
                         </span>
