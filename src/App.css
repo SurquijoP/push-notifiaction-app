@@ -398,6 +398,55 @@
     flex-wrap: wrap;
   }
 
+.form-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.form-section-header h3 {
+  font-size: 18px;
+  color: #1d2939;
+}
+
+.add-button {
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.add-button:hover:not(:disabled) {
+  background: #cbd5e1;
+}
+
+.remove-button {
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.remove-button:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.extra-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 18px;
+  align-items: end;
+}
+
   .task-list-actions {
     display: flex;
     flex-wrap: wrap;

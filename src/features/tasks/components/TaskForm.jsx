@@ -81,6 +81,15 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
     }
   }, [form.categoryId, categories]);
 
+  useEffect(() => {
+    if (form.frequencyId) {
+      const frequency = frequencies.find(freq => freq.id === form.frequencyId);
+      if (frequency) {
+        setSearchFrequency(frequency.name || frequency.code || '');
+      }
+    }
+  }, [form.frequencyId, frequencies]);
+
   const filteredCategories = useMemo(
     () => categories.filter((item) => item.name.toLowerCase().includes(searchCategory.toLowerCase())),
     [categories, searchCategory]
@@ -97,7 +106,7 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
   );
 
   const filteredFrequencies = useMemo(
-    () => frequencies.filter((item) => item.code.toLowerCase().includes(searchFrequency.toLowerCase())),
+    () => frequencies.filter((item) => item.name?.toLowerCase().includes(searchFrequency.toLowerCase())),
     [frequencies, searchFrequency]
   );
 
@@ -131,7 +140,7 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
 
   const handleFrequencyInput = (value) => {
     setSearchFrequency(value);
-    const selected = frequencies.find((item) => item.code.toLowerCase() === value.toLowerCase());
+    const selected = frequencies.find((item) => item.name?.toLowerCase() === value.toLowerCase());
     setForm((prev) => ({
       ...prev,
       frequencyId: selected?.id || ''
@@ -155,6 +164,29 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
             value: ''
           }))
         : []
+    }));
+  };
+
+  const addExtraField = () => {
+    setForm((prev) => ({
+      ...prev,
+      extraFields: [...prev.extraFields, { label: '', value: '' }]
+    }));
+  };
+
+  const removeExtraField = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      extraFields: prev.extraFields.filter((_, idx) => idx !== index)
+    }));
+  };
+
+  const updateExtraField = (index, key, value) => {
+    setForm((prev) => ({
+      ...prev,
+      extraFields: prev.extraFields.map((item, idx) =>
+        idx === index ? { ...item, [key]: value } : item
+      )
     }));
   };
 
@@ -299,11 +331,11 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
                         className="search-option"
                         onMouseDown={(event) => event.preventDefault()}
                         onClick={() => {
-                          handleFrequencyInput(frequency.code);
+                          handleFrequencyInput(frequency.name || frequency.code || '');
                           setFrequencyDropdownOpen(false);
                         }}
                       >
-                        {frequency.code}
+                        {frequency.name || frequency.code}
                       </button>
                     ))
                   ) : (
@@ -420,32 +452,41 @@ export function TaskForm({ initialTask, filters = {}, onSubmit, onCancel, onShow
           </div>
         )}
 
-        {Array.isArray(form.extraFields) && form.extraFields.length > 0 && (
-          <div className="entity-fields">
-            <h3>Datos Extras</h3>
-            {form.extraFields.map((field, index) => (
-              <div key={`${field.label}-${index}`} className="form-grid">
-                <div className="form-section">
-                  <label>{field.label || 'Dato extra'}</label>
-                  <input
-                    type="text"
-                    value={field.value}
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      setForm((prev) => ({
-                        ...prev,
-                        extraFields: prev.extraFields.map((item, idx) =>
-                          idx === index ? { ...item, value } : item
-                        )
-                      }));
-                    }}
-                    placeholder={field.example ? `Ej: ${field.example}` : 'Ingresa el valor' }
-                  />
-                </div>
-              </div>
-            ))}
+        <div className="entity-fields">
+          <div className="form-section-header">
+            <h3>Información adicional</h3>
+            <button type="button" className="add-button" onClick={addExtraField}>
+              Agregar campo
+            </button>
           </div>
-        )}
+          {form.extraFields.map((field, index) => (
+            <div key={`extra-${index}`} className="extra-field-row">
+              <div className="form-section">
+                <label>Clave</label>
+                <input
+                  type="text"
+                  value={field.label}
+                  onChange={(event) => updateExtraField(index, 'label', event.target.value)}
+                  placeholder="Ej: Número de cuenta"
+                />
+              </div>
+              <div className="form-section">
+                <label>Valor</label>
+                <input
+                  type="text"
+                  value={field.value}
+                  onChange={(event) => updateExtraField(index, 'value', event.target.value)}
+                  placeholder="Ej: 123456789"
+                />
+              </div>
+              <div className="form-section">
+                <button type="button" className="remove-button" onClick={() => removeExtraField(index)}>
+                  Remover
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className="form-grid">
           <div className="form-section">

@@ -65,12 +65,31 @@ export function TaskDetail({ task, filters, onBack, onEdit, onDelete, onToggleAc
             <span>{getEntityName(task.entity.name)}</span>
           </div>
         )}
+        {(task.frequency?.name || task.frequencies?.[0]?.name) && (
+          <div className="detail-row">
+            <strong>Frecuencia</strong>
+            <span>{task.frequency?.name || task.frequencies?.[0]?.name}</span>
+          </div>
+        )}
         {task.wallet?.[0]?.name && (
           <div className="detail-row">
             <strong>Wallet</strong>
             <span>{task.wallet[0].name}</span>
           </div>
         )}
+
+        {Array.isArray(task.extraFields) && task.extraFields.length > 0 && (
+          <div className="entity-fields">
+            <h3>Información adicional</h3>
+            {task.extraFields.map((field, index) => (
+              <div key={`extra-${index}`} className="detail-row">
+                <strong>{field.label || 'Campo adicional'}</strong>
+                <span>{field.value || ''}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="detail-actions">
           {(task.status || '').toString().toLowerCase() === 'pending' && (
             <button
