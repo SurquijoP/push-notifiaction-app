@@ -149,11 +149,10 @@
   align-items: center;
 }
 
-.entity-fields {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 18px;
+.entity-fields h3 {
+  font-size: 16px;
+  color: #1e293b;
+  margin: 0 0 10px 0;
 }
 
 .form-actions {
@@ -538,9 +537,11 @@
       flex-direction: column;
     }
 
-    .entity-fields,
+    .entity-fields ,
     .empty-state {
-      padding: 16px;
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 22px;
     }
   }
 
@@ -634,14 +635,9 @@
   }
 
   .task-detail-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 24px;
     display: grid;
     gap: 16px;
     width: 100%;
-    max-width: 100%;
   }
 
   .detail-row {
@@ -649,9 +645,10 @@
     justify-content: space-between;
     gap: 10px;
     align-items: center;
-    padding: 14px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #e2e8f0;
     flex-wrap: wrap;
+    font-size: 14px;
   }
 
   .detail-row strong,
@@ -771,6 +768,8 @@
   .status-icon.delayed {
     background: #fee2e2;
     color: #dc2626;
+    animation: softHeartbeat 2.5s ease-in-out infinite;
+    animation-delay: 0.2s;
   }
 
   .status-icon.pending {
@@ -806,3 +805,17 @@
     margin-bottom: 20px;
   }
 
+@keyframes softHeartbeat {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.18); /* Crece un 18% suavemente */
+  }
+  30% {
+    transform: scale(1); /* Vuelve a su tamaño */
+  }
+  100% {
+    transform: scale(1); /* Se mantiene normal el resto del tiempo (la pausa) */
+  }
+}

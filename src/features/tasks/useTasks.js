@@ -59,7 +59,6 @@ export const useTasks = () => {
       const headers = await getHeaders();
       const data = await taskApi.getTasks(headers);
       setTasks(data);
-      setMessage('✅ Tareas cargadas correctamente');
     } catch (error) {
       handleError(error, 'No se pudieron cargar las tareas');
       setTasks([]);

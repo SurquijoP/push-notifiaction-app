@@ -13,19 +13,15 @@ export function TaskDetail({ task, filters, onBack, onEdit, onDelete, onToggleAc
 
   return (
     <div className="task-list-card">
-      <div className="task-list-header">
-        <div>
-          <h2>Detalle de tarea</h2>
-          <p>Revisa la información completa y edita la tarea si lo necesitas.</p>
-        </div>
-        <div className="task-list-actions">
-          <button className="secondary-button" onClick={onBack} disabled={loading}>
-            Volver a la lista
-          </button>
-          <button className="primary-button" onClick={onEdit} disabled={loading}>
-            Editar tarea
-          </button>
-        </div>
+      <button className="secondary-button" style={{ marginRight: '12px' }} onClick={onBack} disabled={loading}>
+        Volver a la lista
+      </button>
+      <button className="primary-button"  onClick={onEdit} disabled={loading}>
+        Editar tarea
+      </button>
+
+      <div className="header">
+        <h2>Detalle de tarea</h2>
       </div>
 
       <div className="task-detail-card">
