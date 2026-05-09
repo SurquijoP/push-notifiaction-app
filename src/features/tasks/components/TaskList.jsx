@@ -6,7 +6,8 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
     tasks.forEach((task) => {
       const date = task.solveDay ? new Date(task.solveDay) : new Date();
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      const monthName = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
+      let monthName = date.toLocaleDateString('es-ES', { month: 'long' });
+      monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
       if (!groups[monthKey]) {
         groups[monthKey] = { name: monthName, tasks: [] };
@@ -74,9 +75,11 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
 
       <div className="grouped-task-list">
         {groupedTasks.map((group) => (
+          <><div className='group-name-date'>
+            <h4>{group.name}</h4>
+          </div>
           <div key={group.name} className="task-group">
             <div className="task-group-header">
-              <span>{group.name}</span>
               <span className="task-group-count">{group.tasks.length} tareas</span>
             </div>
             <div className="task-list">
@@ -95,10 +98,10 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
                         <span>
                           {task.solveDay
                             ? `Compromiso: ${new Date(task.solveDay).toLocaleDateString('es-ES', {
-                                weekday: 'long',
-                                day: '2-digit',
-                                timeZone: 'UTC'
-                              })}`
+                              weekday: 'long',
+                              day: '2-digit',
+                              timeZone: 'UTC'
+                            })}`
                             : 'Sin fecha de compromiso'}
                         </span>
                       </div>
@@ -107,7 +110,7 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
                 </button>
               ))}
             </div>
-          </div>
+          </div></>
         ))}
       </div>
     </div>
