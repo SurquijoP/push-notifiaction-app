@@ -83,6 +83,7 @@ function App() {
   };
 
   const handleCancel = () => {
+    loadTasks();
     setSelectedTask(null);
     setView('list');
   };
@@ -106,6 +107,7 @@ function App() {
     } else {
       await createTask(form);
     }
+    loadTasks();
     setView('list');
     setSelectedTask(null);
   };

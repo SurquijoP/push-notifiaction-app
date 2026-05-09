@@ -91,7 +91,7 @@ export function TaskDetail({ task, filters, onBack, onEdit, onDelete, onToggleAc
         )}
 
         <div className="detail-actions">
-          {(task.status || '').toString().toLowerCase() === 'pending' && (
+          {['pending','delayed'].includes(task?.status?.toLowerCase()) && (
             <button
               className="primary-button"
               onClick={() => onToggleActive(task.id || task._id, 'status')}
