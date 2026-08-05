@@ -16,7 +16,20 @@ function App() {
   const { user } = useUser();
   const [view, setView] = useState('list');
   const [selectedTask, setSelectedTask] = useState(null);
-  const { tasks, loading, message, filters, loadTasks, createTask, updateTask, deleteTask, toggleTaskActive } = useTasks();
+  const {
+    tasks,
+    loading,
+    loadingMore,
+    hasMore,
+    message,
+    filters,
+    loadTasks,
+    loadMoreTasks,
+    createTask,
+    updateTask,
+    deleteTask,
+    toggleTaskActive
+  } = useTasks();
 
   const getDeviceInfo = () => ({
     userAgent: navigator.userAgent || 'unknown',
@@ -171,9 +184,12 @@ function App() {
               <TaskList
                 tasks={tasks}
                 loading={loading}
+                loadingMore={loadingMore}
+                hasMore={hasMore}
                 onSelectTask={handleSelectTask}
                 onCreateTask={handleCreateTask}
                 onReload={loadTasks}
+                onLoadMore={loadMoreTasks}
               />
             )}
 

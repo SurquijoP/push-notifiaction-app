@@ -58,13 +58,35 @@ const cleanPayload = (form) => {
 };
 
 export const taskApi = {
-  getTasks: async (headers) => {
-    const response = await fetch(`${baseApiUrl}/api-coremanagment/tasks`, {
+  getTasks: async (headers, { page = 1, limit = 20 } = {}) => {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit)
+    });
+    const response = await fetch(`${baseApiUrl}/api-coremanagment/tasks?${params.toString()}`, {
       method: 'GET',
       headers
     });
     const body = await handleResponse(response);
-    return Array.isArray(body.data) ? body.data : [];
+    const data = body?.data;
+    const container = Array.isArray(data) ? body : data || body;
+    const tasks = Array.isArray(data)
+      ? data
+      : container.tasks || container.items || container.results || container.data || [];
+    const pagination = body?.pagination || body?.meta || data?.pagination || data?.meta || {};
+    const hasMore = typeof pagination.hasMore === 'boolean'
+      ? pagination.hasMore
+      : typeof pagination.hasNextPage === 'boolean'
+        ? pagination.hasNextPage
+        : typeof pagination.nextPage === 'number'
+          ? pagination.nextPage > page
+          : typeof pagination.totalPages === 'number'
+            ? page < pagination.totalPages
+            : typeof pagination.total === 'number'
+              ? page * limit < pagination.total
+              : tasks.length > 0;
+
+    return { tasks: Array.isArray(tasks) ? tasks : [], hasMore };
   },
 
   getCreateFilters: async (headers) => {

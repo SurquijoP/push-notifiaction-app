@@ -1,6 +1,34 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
-export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload }) {
+export function TaskList({
+  tasks,
+  loading,
+  loadingMore,
+  hasMore,
+  onSelectTask,
+  onCreateTask,
+  onReload,
+  onLoadMore
+}) {
+  const loadMoreRef = useRef(null);
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target || !hasMore || !onLoadMore) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !loading && !loadingMore) {
+          onLoadMore();
+        }
+      },
+      { rootMargin: '0px 0px 300px 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMore, loading, loadingMore, onLoadMore]);
+
   const groupedTasks = useMemo(() => {
     const groups = {};
     tasks.forEach((task) => {
@@ -112,6 +140,11 @@ export function TaskList({ tasks, loading, onSelectTask, onCreateTask, onReload 
             </div>
           </div></>
         ))}
+      </div>
+
+      <div ref={loadMoreRef} className="task-list-pagination" aria-live="polite">
+        {loadingMore && <span>Cargando más tareas...</span>}
+        {!loadingMore && !hasMore && tasks.length > 0 && <span>No hay más tareas.</span>}
       </div>
     </div>
   );

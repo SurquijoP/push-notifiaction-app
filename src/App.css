@@ -721,6 +721,14 @@
     gap: 24px;
   }
 
+  .task-list-pagination {
+    min-height: 24px;
+    padding: 16px 0 4px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+  }
+
   .task-group {
     border: 1px solid #e2e8f0;
     background: #ffffff;
